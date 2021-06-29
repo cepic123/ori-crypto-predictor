@@ -8,7 +8,8 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.layers import Dense, Dropout, LSTM
 from tensorflow.keras.models import Sequential
 
-crypto_currency = 'BTC'
+option = input("Which crypto do you want(eg. BTC, XRP, BNB, ETH...): ")
+crypto_currency = option
 against_currency = 'USD'
 
 start = dt.datetime(2016, 1, 1)
@@ -73,3 +74,11 @@ plt.xlabel('Time')
 plt.ylabel('Price')
 plt.legend(loc='upper left')
 plt.show()
+
+real_data = [model_inputs[len(model_inputs) + 1 - prediction_days:len(model_inputs) + 1, 0]]
+real_data = np.array(real_data)
+real_data = np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
+
+prediction = model.predict(real_data)
+prediction = scaler.inverse_transform(prediction)
+print("Value of ", crypto_currency," tommorow is:", prediction)
